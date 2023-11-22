@@ -13,35 +13,39 @@ def get_birthdays_per_week(users):
         dict_date[today.strftime('%A')] = today
 
     result = {}
-    for el in dict_date:
-        result[el] = []
 
     for el_users in users:
         dt_users = el_users["birthday"]
 
-        for el in dict_date:
-            x = dict_date[el]
+        for weekday in dict_date:
+            dt_today = dict_date[weekday]
 
-            if x.month == dt_users.month and x.day == dt_users.day:
-                if 'Sunday' == el or 'Saturday' == el:
+            if  not (dt_today.month == dt_users.month and dt_today.day == dt_users.day):
+                continue
+
+            if 'Sunday' == weekday or 'Saturday' == weekday:
+                if 'Monday' in result:
                     result['Monday'].append(el_users["name"])
                 else:
-                    result[el].append(el_users["name"])
-    itr = 1
-    while itr <= 7:
-        for el in result:
-            if len(result[el]) == 0:
-                del result[el]
-                break
+                    result['Monday'] = [el_users["name"]]
+
             else:
-                itr += 1
+                if weekday in result:
+                    result[weekday].append(el_users["name"])
+                else:
+                    result[weekday] = [el_users["name"]]
+
+
 
     return result
 
 
 if __name__ == "__main__":
     users = [
-        {"name": "Jan Koum", "birthday": datetime(1976, 11, 22).date()},
+        {"name": "Jan", "birthday": datetime(1976, 11, 24).date()},
+        {"name": " Koum", "birthday": datetime(1976, 11, 22).date()},
+        {"name": "JK", "birthday": datetime(1976, 11, 25).date()},
+        {"name": "Heho", "birthday": datetime(1976, 11, 26).date()},
     ]
 
     result = get_birthdays_per_week(users)
