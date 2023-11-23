@@ -3,7 +3,7 @@ from datetime import date, datetime,timedelta
 
 def get_birthdays_per_week(users):
     # Реалізуйте тут домашнє завдання
-    if len(users) == 0:
+    if not users:
         return {}
 
     today = date.today()
@@ -23,7 +23,7 @@ def get_birthdays_per_week(users):
             if  not (dt_today.month == dt_users.month and dt_today.day == dt_users.day):
                 continue
 
-            if 'Sunday' == weekday or 'Saturday' == weekday:
+            if weekday in ('Sunday', 'Saturday'):
                 if 'Monday' in result:
                     result['Monday'].append(el_users["name"])
                 else:
